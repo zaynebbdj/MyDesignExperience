@@ -79,7 +79,7 @@ public class ActivityPage extends javax.swing.JFrame {
                         .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 71, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(696, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -115,9 +115,9 @@ public class ActivityPage extends javax.swing.JFrame {
     private void loadActivities() {
         try {
             // Database connection
-            Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/MyDesigneExperienceDB", "root", "");
+            Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/MyDesignExperienceDB", "root", "");
             Statement stmt = conn.createStatement();
-            ResultSet rs = stmt.executeQuery("SELECT description FROM service"); 
+            ResultSet rs = stmt.executeQuery("SELECT description FROM activity"); 
 
             // clear ancient data
             listModel.clear();

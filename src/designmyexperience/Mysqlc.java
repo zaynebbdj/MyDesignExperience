@@ -37,6 +37,13 @@ public class Mysqlc {
                      }catch(SQLException ex){
                             System.out.println(ex.getMessage());
                     }
+                 /*INSERT INTO User (username, password, user_type, name, firstname, email, phone)
+                VALUES 
+                ('john_doe', 'hashedpassword1', 'customer', 'Doe', 'John', 'john.doe@example.com', '123456789'),
+                ('alice_smith', 'hashedpassword2', 'customer', 'Smith', 'Alice', 'alice.smith@example.com', '987654321'),
+                ('adventure_club', 'hashedpassword3', 'business_owner', 'Club', 'Adventure', 'contact@adventureclub.com', '1122334455'),
+                ('nature_tours', 'hashedpassword4', 'business_owner', 'Tours', 'Nature', 'info@naturetours.com', '6677889900');*/
+
         }       
     } 
 }

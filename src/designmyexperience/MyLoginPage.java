@@ -45,7 +45,6 @@ public class MyLoginPage extends javax.swing.JFrame {
 
         jPanel1.setBackground(new java.awt.Color(255, 255, 255));
 
-        jLabel1.setForeground(new java.awt.Color(0, 0, 0));
         jLabel1.setText("username :");
 
         txtUsername.setText("john_doe");
@@ -56,18 +55,15 @@ public class MyLoginPage extends javax.swing.JFrame {
         });
 
         txtPassword.setText("hashedpassword1");
-        txtPassword.setCaretColor(new java.awt.Color(0, 0, 0));
         txtPassword.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 txtPasswordActionPerformed(evt);
             }
         });
 
-        jLabel2.setForeground(new java.awt.Color(0, 0, 0));
         jLabel2.setText("password :");
 
         btnLogin.setBackground(new java.awt.Color(255, 204, 204));
-        btnLogin.setForeground(new java.awt.Color(0, 0, 0));
         btnLogin.setText("Login");
         btnLogin.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -76,7 +72,6 @@ public class MyLoginPage extends javax.swing.JFrame {
         });
 
         jLabel4.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
-        jLabel4.setForeground(new java.awt.Color(0, 0, 0));
         jLabel4.setText("LOGIN");
 
         btnCreateUser.setText("Create Account");
@@ -126,6 +121,8 @@ public class MyLoginPage extends javax.swing.JFrame {
         jPanel2.setBackground(new java.awt.Color(153, 204, 255));
 
         jLabel3.setFont(new java.awt.Font("Segoe UI", 2, 18)); // NOI18N
+        jLabel3.setForeground(new java.awt.Color(0, 0, 0));
+        jLabel3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/logo_bleu.png"))); // NOI18N
         jLabel3.setText("MyDesignExperience");
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
@@ -181,8 +178,8 @@ public class MyLoginPage extends javax.swing.JFrame {
         ResultSet rs = null;
 
         try {
-            // db parameters - ptest is the name of the database
-            String url = "jdbc:mysql://localhost:3306/MyDesigneExperienceDB"; 
+            // db parameters 
+            String url = "jdbc:mysql://localhost:3306/MyDesignExperienceDB"; 
             String user = "root"; 
             String pass = "";
 
@@ -191,15 +188,16 @@ public class MyLoginPage extends javax.swing.JFrame {
             // more processing here
             // ... 
             // SQL request
-            String sql = "SELECT * FROM usermde WHERE username = ? AND password = ?";
+            String sql = "SELECT * FROM users WHERE username = ? AND password = ?";
             pst = conn.prepareStatement(sql);
             pst.setString(1, username);
             pst.setString(2, password);
 
             rs = pst.executeQuery();
 
+            // user does exist
             if (rs.next()) {
-                JOptionPane.showMessageDialog(this, "Connexion réussie !", "Succès", JOptionPane.INFORMATION_MESSAGE);
+                JOptionPane.showMessageDialog(this, "Connexion completed !", "Logged", JOptionPane.INFORMATION_MESSAGE);
 
                 // UserPage opening
                 CustomerLoggedPage customerPage = new CustomerLoggedPage();
@@ -207,12 +205,13 @@ public class MyLoginPage extends javax.swing.JFrame {
 
                 // MyLoginPage closing
                 this.dispose();
-            } else {
-                JOptionPane.showMessageDialog(this, "Nom d'utilisateur ou mot de passe incorrect", "Erreur", JOptionPane.ERROR_MESSAGE);
+                
+            } else { // user does not exist
+                JOptionPane.showMessageDialog(this, "Username or password incorrect", "Error", JOptionPane.ERROR_MESSAGE);
             }
 
         } catch (Exception e) {
-            JOptionPane.showMessageDialog(this, "Erreur de connexion : " + e.getMessage(), "Erreur", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(this, "Error when connecting : " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
         } finally {
             // ressources closing
             try {
@@ -252,10 +251,13 @@ public class MyLoginPage extends javax.swing.JFrame {
         if (choice == 0) { // Customer selected
             CreateUserCustomerPage customerPage = new CreateUserCustomerPage();
             customerPage.setVisible(true);
+            this.dispose();
         } else if (choice == 1) { // Business Owner selected
             CreateUserBusinessPage businessPage = new CreateUserBusinessPage();
             businessPage.setVisible(true);
+            this.dispose();
         }
+        
     }//GEN-LAST:event_btnCreateUserActionPerformed
 
     /**
