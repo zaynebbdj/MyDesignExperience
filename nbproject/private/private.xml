@@ -3,19 +3,16 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/C:/Users/proza/OneDrive/Documents/MyDesignExperience/src/designmyexperience/CreateActivityPage.java</file>
-            <file>file:/C:/Users/proza/OneDrive/Documents/MyDesignExperience/src/designmyexperience/BookingOfTheChosenActivity.java</file>
-            <file>file:/C:/Users/proza/OneDrive/Documents/MyDesignExperience/src/designmyexperience/CustomerLoggedPage.java</file>
-            <file>file:/C:/Users/proza/OneDrive/Documents/MyDesignExperience/src/designmyexperience/Mysqlc.java</file>
-            <file>file:/C:/Users/proza/OneDrive/Documents/MyDesignExperience/src/designmyexperience/BusinessOwnerLoggedPage.java</file>
-            <file>file:/C:/Users/proza/OneDrive/Documents/MyDesignExperience/src/designmyexperience/ActivityPage.java</file>
-            <file>file:/C:/Users/proza/OneDrive/Documents/MyDesignExperience/src/designmyexperience/CreateUserBusinessPage.java</file>
-            <file>file:/C:/Users/proza/OneDrive/Documents/MyDesignExperience/src/designmyexperience/MyLoginPage.java</file>
-            <file>file:/C:/Users/proza/OneDrive/Documents/MyDesignExperience/src/designmyexperience/CreateUserCustomerPage.java</file>
-            <file>file:/C:/Users/proza/OneDrive/Documents/MyDesignExperience/src/designmyexperience/BusinessOwner.java</file>
-            <file>file:/C:/Users/proza/OneDrive/Documents/MyDesignExperience/src/designmyexperience/Service.java</file>
-            <file>file:/C:/Users/proza/OneDrive/Documents/MyDesignExperience/src/designmyexperience/User.java</file>
-            <file>file:/C:/Users/proza/OneDrive/Documents/MyDesignExperience/src/designmyexperience/Customer.java</file>
+            <file>file:/C:/Users/Mirina/Documents/NetBeansProjects/PROJET_GLOBAL_JAVA/src/designmyexperience/User.java</file>
+            <file>file:/C:/Users/Mirina/Documents/NetBeansProjects/PROJET_GLOBAL_JAVA/src/designmyexperience/Payment.java</file>
+            <file>file:/C:/Users/Mirina/Documents/NetBeansProjects/PROJET_GLOBAL_JAVA/src/designmyexperience/ActivityPage.java</file>
+            <file>file:/C:/Users/Mirina/Documents/NetBeansProjects/PROJET_GLOBAL_JAVA/src/designmyexperience/MyLoginPage.java</file>
+            <file>file:/C:/Users/Mirina/Documents/NetBeansProjects/PROJET_GLOBAL_JAVA/src/designmyexperience/DesignMyExperience.java</file>
+            <file>file:/C:/Users/Mirina/Documents/NetBeansProjects/PROJET_GLOBAL_JAVA/src/designmyexperience/BookingOfTheChosenActivity.java</file>
+            <file>file:/C:/Users/Mirina/Documents/NetBeansProjects/PROJET_GLOBAL_JAVA/src/designmyexperience/Validation.java</file>
+            <file>file:/C:/Users/Mirina/Documents/NetBeansProjects/PROJET_GLOBAL_JAVA/src/designmyexperience/CustomerLoggedPage.java</file>
+            <file>file:/C:/Users/Mirina/Documents/NetBeansProjects/PROJET_GLOBAL_JAVA/src/designmyexperience/CreateUserBusinessPage.java</file>
+            <file>file:/C:/Users/Mirina/Documents/NetBeansProjects/PROJET_GLOBAL_JAVA/src/designmyexperience/TestFrame.java</file>
         </group>
     </open-files>
 </project-private>

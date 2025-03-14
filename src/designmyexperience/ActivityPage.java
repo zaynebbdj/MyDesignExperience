@@ -117,14 +117,14 @@ public class ActivityPage extends javax.swing.JFrame {
             // Database connection
             Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/MyDesignExperienceDB", "root", "");
             Statement stmt = conn.createStatement();
-            ResultSet rs = stmt.executeQuery("SELECT description FROM activity"); 
+            ResultSet rs = stmt.executeQuery("SELECT name FROM activity"); 
 
             // clear ancient data
             listModel.clear();
 
             // Add activity line by line
             while (rs.next()) {
-                listModel.addElement(rs.getString("description"));
+                listModel.addElement(rs.getString("name"));
             }
 
             // Close connexion
