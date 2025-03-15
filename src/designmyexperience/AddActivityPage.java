@@ -12,6 +12,9 @@ import java.io.File;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.swing.ImageIcon;
 import java.awt.Image;
+import javax.swing.table.DefaultTableModel;
+import java.awt.Color;
+import java.util.ArrayList;
 /**
  *
  * @author proza
@@ -20,6 +23,7 @@ public class AddActivityPage extends javax.swing.JFrame {
 
     private User currentUser;
     private String imagePath;
+    private DefaultTableModel model;
     /**
      * Creates new form CreateActivityPage
      */
@@ -27,12 +31,14 @@ public class AddActivityPage extends javax.swing.JFrame {
         UserMDE uD = new UserMDEImpl();
         currentUser = uD.getUser("Zaya369", "spaceX");
         initComponents();
+        init();
     }
     
     
     public AddActivityPage(User u){
         this.currentUser = u;
         initComponents();
+        init();
     }
 
     /**
@@ -62,14 +68,13 @@ public class AddActivityPage extends javax.swing.JFrame {
         jLabel3 = new javax.swing.JLabel();
         jPanel2 = new javax.swing.JPanel();
         jLabel8 = new javax.swing.JLabel();
-        jDateChooser1 = new com.toedter.calendar.JDateChooser();
+        dcDate = new com.toedter.calendar.JDateChooser();
         lblDate = new javax.swing.JLabel();
         jPanel5 = new javax.swing.JPanel();
         btnBrowse = new javax.swing.JButton();
         jPanel6 = new javax.swing.JPanel();
         lblImage = new javax.swing.JLabel();
         lblTitleImage = new javax.swing.JLabel();
-        cDate = new com.toedter.calendar.JCalendar();
         jPanel4 = new javax.swing.JPanel();
         jPanel8 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
@@ -141,6 +146,7 @@ public class AddActivityPage extends javax.swing.JFrame {
         lblDate.setText("Date :");
 
         jPanel5.setBackground(new java.awt.Color(204, 204, 255));
+        jPanel5.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
 
         btnBrowse.setText("Browse");
         btnBrowse.addActionListener(new java.awt.event.ActionListener() {
@@ -201,8 +207,6 @@ public class AddActivityPage extends javax.swing.JFrame {
                 .addContainerGap())
         );
 
-        cDate.setBackground(new java.awt.Color(204, 204, 255));
-
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -222,7 +226,7 @@ public class AddActivityPage extends javax.swing.JFrame {
                                     .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                         .addComponent(txtFee, javax.swing.GroupLayout.PREFERRED_SIZE, 173, javax.swing.GroupLayout.PREFERRED_SIZE)
                                         .addComponent(txtAddress, javax.swing.GroupLayout.PREFERRED_SIZE, 173, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addComponent(jDateChooser1, javax.swing.GroupLayout.PREFERRED_SIZE, 173, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                        .addComponent(dcDate, javax.swing.GroupLayout.PREFERRED_SIZE, 173, javax.swing.GroupLayout.PREFERRED_SIZE)))
                                 .addGroup(jPanel1Layout.createSequentialGroup()
                                     .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                         .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 77, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -242,15 +246,14 @@ public class AddActivityPage extends javax.swing.JFrame {
                         .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(cDate, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jPanel5, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(jPanel2, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel1Layout.createSequentialGroup()
                                 .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 77, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(76, 76, 76)
                                 .addComponent(cbTheme, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(0, 0, Short.MAX_VALUE)))
-                        .addContainerGap())))
+                        .addContainerGap())
+                    .addComponent(jPanel5, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -287,23 +290,18 @@ public class AddActivityPage extends javax.swing.JFrame {
                     .addComponent(txtFee, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jDateChooser1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(dcDate, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(lblDate))
-                .addGap(18, 18, 18)
-                .addComponent(cDate, javax.swing.GroupLayout.PREFERRED_SIZE, 103, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGap(53, 53, 53)
                 .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(146, 146, 146))
+                .addGap(232, 232, 232))
         );
 
         jPanel8.setBackground(new java.awt.Color(204, 204, 255));
 
         tableActivity.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null, null}
+
             },
             new String [] {
                 "Id", "Name", "Description", "Theme", "Date", "Owner Id", "Fee", "Address", "Participants", "duration", "Image Path"
@@ -324,8 +322,8 @@ public class AddActivityPage extends javax.swing.JFrame {
             jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel8Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 535, Short.MAX_VALUE)
-                .addContainerGap())
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 462, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         jPanel9.setBackground(new java.awt.Color(204, 204, 255));
@@ -342,7 +340,7 @@ public class AddActivityPage extends javax.swing.JFrame {
 
         btnCancel.setBackground(new java.awt.Color(255, 153, 153));
         btnCancel.setForeground(new java.awt.Color(0, 0, 0));
-        btnCancel.setText("Cancel");
+        btnCancel.setText("Home Page");
         btnCancel.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnCancelActionPerformed(evt);
@@ -360,32 +358,37 @@ public class AddActivityPage extends javax.swing.JFrame {
         btnRefresh.setBackground(new java.awt.Color(255, 204, 153));
         btnRefresh.setForeground(new java.awt.Color(0, 0, 0));
         btnRefresh.setText("refresh");
+        btnRefresh.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnRefreshActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel9Layout = new javax.swing.GroupLayout(jPanel9);
         jPanel9.setLayout(jPanel9Layout);
         jPanel9Layout.setHorizontalGroup(
             jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel9Layout.createSequentialGroup()
-                .addGap(37, 37, 37)
-                .addComponent(btnAdd)
-                .addGap(37, 37, 37)
-                .addComponent(btnCancel, javax.swing.GroupLayout.PREFERRED_SIZE, 94, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(89, 89, 89)
-                .addComponent(btnRefresh)
-                .addGap(115, 115, 115)
-                .addComponent(btnLogOut)
-                .addContainerGap(82, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel9Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(btnAdd, javax.swing.GroupLayout.PREFERRED_SIZE, 149, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(btnCancel, javax.swing.GroupLayout.PREFERRED_SIZE, 149, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(btnRefresh, javax.swing.GroupLayout.PREFERRED_SIZE, 149, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(btnLogOut, javax.swing.GroupLayout.PREFERRED_SIZE, 149, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel9Layout.setVerticalGroup(
             jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel9Layout.createSequentialGroup()
-                .addGap(37, 37, 37)
+                .addContainerGap()
                 .addGroup(jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(btnAdd)
-                    .addComponent(btnCancel)
-                    .addComponent(btnLogOut)
-                    .addComponent(btnRefresh))
-                .addContainerGap(36, Short.MAX_VALUE))
+                    .addComponent(btnAdd, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnCancel, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnRefresh, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnLogOut, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
@@ -404,9 +407,9 @@ public class AddActivityPage extends javax.swing.JFrame {
             .addGroup(jPanel4Layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jPanel8, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jPanel9, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap())
         );
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
@@ -448,10 +451,60 @@ public class AddActivityPage extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    public void init(){
+        tableActivity.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+
+            },
+            new String [] {
+                "Id", "Name", "Description", "Theme", "Date", "Owner Id", "Fee", "Address", "Participants", "duration", "Image Path"
+            }
+        ));
+        tableViewActivity();
+    }
+    public void tableViewActivity(){
+        getActivityValue();
+        model = (DefaultTableModel) tableActivity.getModel();
+        tableActivity.setRowHeight(30);
+        tableActivity.setShowGrid(true);
+        tableActivity.setGridColor(Color.black);
+        tableActivity.setBackground(Color.white);  
+    }
+    
+    public void getActivityValue(){
+        ArrayList<Activity> activities = new ArrayList<Activity>();
+        try{
+            ActivityMDE aMde = new ActivityMDEImpl();
+            activities = aMde.getAllActivity(currentUser.getUserId());
+            DefaultTableModel model = (DefaultTableModel) tableActivity.getModel();
+            Object[] row;
+            System.out.println("size list: "+ activities.size());
+            for (int i =0; i < activities.size(); i++){
+                System.out.println(activities.get(i).getName());
+                row = new Object[11];
+                row[0] = activities.get(i).getActivityId();
+                row[1] = activities.get(i).getName();
+                row[2] = activities.get(i).getDescription();
+                row[3] = activities.get(i).getThemeStr();
+                row[4] = activities.get(i).getMonth();
+                row[5] = activities.get(i).getOwnerId();
+                row[6] = activities.get(i).getFee();
+                row[7] = activities.get(i).getAddress();
+                row[8] = activities.get(i).getMaxParticipant();
+                row[9] = activities.get(i).getDuration();
+                row[10] = activities.get(i).getImagePath();
+                
+                model.addRow(row);
+            }
+        }catch(Exception e){
+        
+        }
+    
+    }
     private void btnCancelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelActionPerformed
         // TODO add your handling code here:
         
-        OwnerLoggedPage b = new OwnerLoggedPage(currentUser);
+        OwnerHomePage b = new OwnerHomePage(currentUser);
         b.setVisible(true);
         this.dispose();
     }//GEN-LAST:event_btnCancelActionPerformed
@@ -467,7 +520,8 @@ public class AddActivityPage extends javax.swing.JFrame {
         int maxParticipant = Integer.parseInt(cbMaxParticipant.getSelectedItem().toString());
         int duration = cbDuration.getSelectedIndex();
         
-        Date selectedDate = cDate.getDate();
+        
+        Date selectedDate = dcDate.getDate();
         Calendar cal = Calendar.getInstance();
         cal.setTime(selectedDate);
         
@@ -500,25 +554,18 @@ public class AddActivityPage extends javax.swing.JFrame {
             activity.setAddress(address);
             activity.setMaxParticipant(maxParticipant);
             activity.setDuration(duration); // in minutes
-
+            activity.setImagePath(imagePath);
             
             actMde.addActivity(activity);
 
-            int rs = -1;
-            if (rs > 0) {
-                JOptionPane.showMessageDialog(this, "Account created successfully!", "Success", JOptionPane.INFORMATION_MESSAGE);
-                MyLoginPage login = new MyLoginPage();
-                login.setVisible(true);
-            } 
+            JOptionPane.showMessageDialog(this, "Activity created successfully", "Succes !", JOptionPane.INFORMATION_MESSAGE);
                 
         } catch(Exception e) {
+            JOptionPane.showMessageDialog(this, "Fill all the field", "Error", JOptionPane.ERROR_MESSAGE);
              System.out.println(e.getMessage());
-
+             
         } finally {
             
-            OwnerLoggedPage b = new OwnerLoggedPage(currentUser);
-            b.setVisible(true);
-            this.dispose();
         } 
     }//GEN-LAST:event_btnAddActionPerformed
 
@@ -528,7 +575,7 @@ public class AddActivityPage extends javax.swing.JFrame {
 
     private void btnLogOutActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLogOutActionPerformed
         // TODO add your handling code here:
-        OwnerLoggedPage o = new OwnerLoggedPage(currentUser);
+        MyLoginPage o = new MyLoginPage();
         o.setVisible(true);
         this.dispose();
         
@@ -546,11 +593,17 @@ public class AddActivityPage extends javax.swing.JFrame {
             String path = selectFile.getAbsolutePath();
             lblImage.setIcon(imageAdjust(path,null));
             imagePath = path;
+            System.out.println(imagePath);
         }else{
             JOptionPane.showMessageDialog(this, "No image selected");
         }
         
     }//GEN-LAST:event_btnBrowseActionPerformed
+
+    private void btnRefreshActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRefreshActionPerformed
+        // TODO add your handling code here:
+        init();
+    }//GEN-LAST:event_btnRefreshActionPerformed
     private ImageIcon imageAdjust(String path, byte[] pic){
         ImageIcon myImage = null;
         if(path != null){
@@ -605,11 +658,10 @@ public class AddActivityPage extends javax.swing.JFrame {
     private javax.swing.JButton btnCancel;
     private javax.swing.JButton btnLogOut;
     private javax.swing.JButton btnRefresh;
-    private com.toedter.calendar.JCalendar cDate;
     private javax.swing.JComboBox<String> cbDuration;
     private javax.swing.JComboBox<String> cbMaxParticipant;
     private javax.swing.JComboBox<String> cbTheme;
-    private com.toedter.calendar.JDateChooser jDateChooser1;
+    private com.toedter.calendar.JDateChooser dcDate;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;

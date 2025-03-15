@@ -3,8 +3,10 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
  */
 package designmyexperience;
+import java.awt.Color;
 import javax.swing.DefaultListModel;
 import java.util.ArrayList;
+import javax.swing.table.DefaultTableModel;
 
 /**
  *
@@ -14,6 +16,7 @@ public class OwnerListActivityPage extends javax.swing.JFrame {
 
     private User currentUser;
     private DefaultListModel<String> listModel = new DefaultListModel<>();
+    private DefaultTableModel model;
     /**
      * Creates new form ListActivityPage
      */
@@ -22,15 +25,66 @@ public class OwnerListActivityPage extends javax.swing.JFrame {
         UserMDE uD = new UserMDEImpl();
         currentUser = uD.getUser("Zaya369", "spaceX");
         listActivity.setModel(listModel);
-        
+        init();
     }
     
     public OwnerListActivityPage(User u){
         this.currentUser = u;
         initComponents();
+        init();
         listActivity.setModel(listModel);
     }
 
+     public void init(){
+        tableActivity.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+
+            },
+            new String [] {
+                "Id", "Name", "Description", "Theme", "Date", "Owner Id", "Fee", "Address", "Participants", "duration", "Image Path"
+            }
+        ));
+        tableViewActivity();
+    }
+    public void tableViewActivity(){
+        getActivityValue();
+        model = (DefaultTableModel) tableActivity.getModel();
+        tableActivity.setRowHeight(30);
+        tableActivity.setShowGrid(true);
+        tableActivity.setGridColor(Color.black);
+        tableActivity.setBackground(Color.white);  
+    }
+    
+    public void getActivityValue(){
+        ArrayList<Activity> activities = new ArrayList<Activity>();
+        try{
+            ActivityMDE aMde = new ActivityMDEImpl();
+            activities = aMde.getAllActivity(currentUser.getUserId());
+            DefaultTableModel model = (DefaultTableModel) tableActivity.getModel();
+            Object[] row;
+            System.out.println("size list: "+ activities.size());
+            for (int i =0; i < activities.size(); i++){
+                System.out.println(activities.get(i).getName());
+                row = new Object[11];
+                row[0] = activities.get(i).getActivityId();
+                row[1] = activities.get(i).getName();
+                row[2] = activities.get(i).getDescription();
+                row[3] = activities.get(i).getThemeStr();
+                row[4] = activities.get(i).getMonth();
+                row[5] = activities.get(i).getOwnerId();
+                row[6] = activities.get(i).getFee();
+                row[7] = activities.get(i).getAddress();
+                row[8] = activities.get(i).getMaxParticipant();
+                row[9] = activities.get(i).getDuration();
+                row[10] = activities.get(i).getImagePath();
+                
+                model.addRow(row);
+            }
+        }catch(Exception e){
+        
+        }
+    
+    }
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -56,6 +110,9 @@ public class OwnerListActivityPage extends javax.swing.JFrame {
         txtFee = new javax.swing.JTextField();
         btnFilter = new javax.swing.JButton();
         rbNone = new javax.swing.JRadioButton();
+        jPanel2 = new javax.swing.JPanel();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        tableActivity = new javax.swing.JTable();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -104,6 +161,29 @@ public class OwnerListActivityPage extends javax.swing.JFrame {
             }
         });
 
+        jPanel2.setBackground(new java.awt.Color(204, 204, 255));
+
+        tableActivity.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+
+            },
+            new String [] {
+                "Id", "Name", "Description", "Theme", "Date", "Owner Id", "Fee", "Address", "Participants", "duration", "image path"
+            }
+        ));
+        jScrollPane2.setViewportView(tableActivity);
+
+        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
+        jPanel2.setLayout(jPanel2Layout);
+        jPanel2Layout.setHorizontalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jScrollPane2)
+        );
+        jPanel2Layout.setVerticalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 354, Short.MAX_VALUE)
+        );
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -143,6 +223,10 @@ public class OwnerListActivityPage extends javax.swing.JFrame {
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(rbNone, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)))))
                 .addContainerGap(108, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap())
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -163,11 +247,13 @@ public class OwnerListActivityPage extends javax.swing.JFrame {
                     .addComponent(txtField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(lblFee)
                     .addComponent(txtFee, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(36, 36, 36)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(btnFilter)
-                .addGap(62, 62, 62)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 223, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(162, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 103, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -259,7 +345,9 @@ public class OwnerListActivityPage extends javax.swing.JFrame {
     private javax.swing.ButtonGroup buttonGroup1;
     private javax.swing.JComboBox<String> cbTheme;
     private javax.swing.JPanel jPanel1;
+    private javax.swing.JPanel jPanel2;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JLabel lblFee;
     private javax.swing.JLabel lblFilter;
     private javax.swing.JLabel lblName;
@@ -269,6 +357,7 @@ public class OwnerListActivityPage extends javax.swing.JFrame {
     private javax.swing.JRadioButton rbName;
     private javax.swing.JRadioButton rbNone;
     private javax.swing.JRadioButton rbTheme;
+    private javax.swing.JTable tableActivity;
     private javax.swing.JTextField txtFee;
     private javax.swing.JTextField txtField;
     // End of variables declaration//GEN-END:variables

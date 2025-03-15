@@ -187,13 +187,13 @@ public class MyLoginPage extends javax.swing.JFrame {
                 JOptionPane.showMessageDialog(this, "Connexion completed !", "Logged", JOptionPane.INFORMATION_MESSAGE);
 
                 // Customer Page opening
-                CustomerLoggedPage customerPage = new CustomerLoggedPage(u);
+                CustomerHomePage customerPage = new CustomerHomePage(u);
                 customerPage.setVisible(true);
                 this.dispose();
                 
             }else if (u.getUserTypeStr().equals("business_owner")){
                 // BusinessOwener Page opening
-                OwnerLoggedPage businessOwnerPage = new OwnerLoggedPage(u);
+                OwnerHomePage businessOwnerPage = new OwnerHomePage(u);
                 businessOwnerPage.setVisible(true);
                 this.dispose();
                 

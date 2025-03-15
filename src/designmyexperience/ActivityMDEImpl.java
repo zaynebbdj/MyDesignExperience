@@ -36,6 +36,7 @@ public class ActivityMDEImpl implements ActivityMDE {
         String address = activity.getAddress();
         int maxParticipant = activity.getMaxParticipant();
         int duration = activity.getDuration();
+        String imagePath = activity.getImagePath();
 
         int year = activity.getYear();
         int month = activity.getMonth();
@@ -44,8 +45,8 @@ public class ActivityMDEImpl implements ActivityMDE {
         String dateFormatted = String.format("%04d-%02d-%02d", year, month, day);
         
         // sql request
-        String sql = "INSERT INTO activity (name, description, theme, activity_date, user_id, fee, address, max_participants, duration) "
-               + "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
+        String sql = "INSERT INTO activity (name, description, theme, activity_date, user_id, fee, address, max_participants, duration, image_path) "
+               + "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
         try{
             // Create Connecction to my database
@@ -66,6 +67,7 @@ public class ActivityMDEImpl implements ActivityMDE {
             preparedStatement.setString(7, address);
             preparedStatement.setInt(8, maxParticipant);
             preparedStatement.setInt(9, duration);
+            preparedStatement.setString(10, imagePath);
 
             // Execute the update (insert)
             preparedStatement.executeUpdate();
@@ -131,8 +133,10 @@ public class ActivityMDEImpl implements ActivityMDE {
                     rs.getDouble("fee"),
                     rs.getString("address"),
                     rs.getInt("max_participants"),
-                    rs.getInt("duration")
+                    rs.getInt("duration"),
+                    rs.getString("image_path")
                 );
+                System.out.println("ajout de: "+ a.getName());
                 activities.add(a);
                 
             }

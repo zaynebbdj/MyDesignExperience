@@ -22,10 +22,12 @@ public class Activity {
     private String address;
     private int maxParticipant;
     private int duration;
+    private String imagePath;
     
     public Activity(){}
+
     
-    public Activity(int activityId, String name, String description, ActivityTheme theme, int ownerId, int day, int month, int year, double fee, String address, int maxParticipant, int duration) {
+    public Activity(int activityId, String name, String description, ActivityTheme theme, int ownerId, int day, int month, int year, double fee, String address, int maxParticipant, int duration, String imagePath) {
         this.activityId = activityId;
         this.name = name;
         this.description = description;
@@ -38,8 +40,15 @@ public class Activity {
         this.address = address;
         this.maxParticipant = maxParticipant;
         this.duration = duration;
+        this.imagePath = imagePath;
+    }
+    public void setImagePath(String imagePath) {
+            this.imagePath = imagePath;
     }
 
+    public String getImagePath(){
+        return this.imagePath;
+    }
     public String getDescription(){
         return this.description;
     }
