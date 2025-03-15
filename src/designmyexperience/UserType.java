@@ -3,14 +3,11 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
 package designmyexperience;
-import java.util.ArrayList;
 
 /**
  *
  * @author proza
  */
-public class BusinessOwner extends User{
-    
-    private ArrayList<Service> ownerServices;
-    
+public enum UserType {
+    CUSTOMER, BUSINESS_OWNER
 }

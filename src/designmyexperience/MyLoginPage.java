@@ -47,14 +47,14 @@ public class MyLoginPage extends javax.swing.JFrame {
 
         jLabel1.setText("username :");
 
-        txtUsername.setText("john_doe");
+        txtUsername.setText("Zaya369");
         txtUsername.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 txtUsernameActionPerformed(evt);
             }
         });
 
-        txtPassword.setText("hashedpassword1");
+        txtPassword.setText("spaceX");
         txtPassword.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 txtPasswordActionPerformed(evt);
@@ -194,7 +194,10 @@ public class MyLoginPage extends javax.swing.JFrame {
             pst.setString(2, password);
 
             rs = pst.executeQuery();
-
+            
+            UserDao uD = new UserDaoImpl();
+            User u = uD.getUser(username, password);
+            System.out.println(u);
             // user does exist
             if (rs.next()) {
                 JOptionPane.showMessageDialog(this, "Connexion completed !", "Logged", JOptionPane.INFORMATION_MESSAGE);
@@ -237,27 +240,10 @@ public class MyLoginPage extends javax.swing.JFrame {
 
     private void btnCreateUserActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCreateUserActionPerformed
         // TODO add your handling code here:
-        String[] options = {"Customer", "Business Owner"};
-        int choice = JOptionPane.showOptionDialog(
-            this, 
-            "What type of account do you want to create?", 
-            "Choose Account Type", 
-            JOptionPane.DEFAULT_OPTION, 
-            JOptionPane.QUESTION_MESSAGE, 
-            null, options, options[0]
-        );
-
-        // Open the corresponding JFrame based on user choice
-        if (choice == 0) { // Customer selected
-            CreateUserCustomerPage customerPage = new CreateUserCustomerPage();
-            customerPage.setVisible(true);
-            this.dispose();
-        } else if (choice == 1) { // Business Owner selected
-            CreateUserBusinessPage businessPage = new CreateUserBusinessPage();
-            businessPage.setVisible(true);
-            this.dispose();
-        }
         
+        RegisterUserPage customerPage = new RegisterUserPage();
+        customerPage.setVisible(true);
+        this.dispose();
     }//GEN-LAST:event_btnCreateUserActionPerformed
 
     /**

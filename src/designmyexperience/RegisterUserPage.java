@@ -11,12 +11,12 @@ import javax.swing.JOptionPane;
  *
  * @author proza
  */
-public class CreateUserCustomerPage extends javax.swing.JFrame {
+public class RegisterUserPage extends javax.swing.JFrame {
 
     /**
      * Creates new form CreateUserCustomerPage
      */
-    public CreateUserCustomerPage() {
+    public RegisterUserPage() {
         initComponents();
     }
 
@@ -44,6 +44,8 @@ public class CreateUserCustomerPage extends javax.swing.JFrame {
         txtPhoneNumber = new javax.swing.JTextField();
         jButton1 = new javax.swing.JButton();
         btnCreateUser = new javax.swing.JButton();
+        cbUserType = new javax.swing.JComboBox<>();
+        lblUserType = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -68,6 +70,18 @@ public class CreateUserCustomerPage extends javax.swing.JFrame {
         jLabel6.setForeground(new java.awt.Color(0, 0, 0));
         jLabel6.setText("phone number :");
 
+        txtUsername.setText("t");
+
+        txtPassword.setText("t");
+
+        txtName.setText("t");
+
+        txtFirstname.setText("t");
+
+        txtEmail.setText("t");
+
+        txtPhoneNumber.setText("t");
+
         jButton1.setBackground(new java.awt.Color(255, 204, 204));
         jButton1.setForeground(new java.awt.Color(0, 0, 0));
         jButton1.setText("Cancel");
@@ -85,6 +99,11 @@ public class CreateUserCustomerPage extends javax.swing.JFrame {
                 btnCreateUserActionPerformed(evt);
             }
         });
+
+        cbUserType.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "customer", "business_owner" }));
+
+        lblUserType.setForeground(new java.awt.Color(0, 0, 0));
+        lblUserType.setText("User Type :");
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -117,6 +136,12 @@ public class CreateUserCustomerPage extends javax.swing.JFrame {
                         .addGap(160, 160, 160)
                         .addComponent(btnCreateUser)))
                 .addContainerGap(220, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                .addGap(0, 0, Short.MAX_VALUE)
+                .addComponent(lblUserType, javax.swing.GroupLayout.PREFERRED_SIZE, 65, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(cbUserType, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(405, 405, 405))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -128,10 +153,11 @@ public class CreateUserCustomerPage extends javax.swing.JFrame {
                 .addContainerGap(170, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel3)
-                    .addComponent(jLabel5)
-                    .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 16, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 16, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(jLabel3)
+                        .addComponent(jLabel5)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(txtUsername, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -147,7 +173,11 @@ public class CreateUserCustomerPage extends javax.swing.JFrame {
                     .addComponent(txtPassword, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(txtFirstname, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(txtPhoneNumber, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(272, 272, 272))
+                .addGap(18, 18, 18)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(cbUserType, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(lblUserType))
+                .addGap(228, 228, 228))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -177,7 +207,7 @@ public class CreateUserCustomerPage extends javax.swing.JFrame {
         // TODO code application logic here
         String username = txtUsername.getText();
         String password = txtPassword.getText(); 
-        
+        UserType userType = UserType.valueOf(cbUserType.getSelectedItem().toString().toUpperCase());
         String name = txtName.getText();
         String firstname = txtFirstname.getText();
         String email = txtEmail.getText();
@@ -186,56 +216,36 @@ public class CreateUserCustomerPage extends javax.swing.JFrame {
 
         // check if the field are all filled
         if (username.isEmpty() || password.isEmpty() || name.isEmpty() || firstname.isEmpty() || phoneNumber.isEmpty()) {
-            JOptionPane.showMessageDialog(this, "Veuillez remplir tous les champs", "Erreur", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(this, "Fill all the field", "Error", JOptionPane.ERROR_MESSAGE);
             return;
         }
         
-        // object connection, statement (request)
-        Connection conn = null;
-        PreparedStatement pst = null;
         try {
-                // db parameters - ptest is the name of the database
-                String url = "jdbc:mysql://localhost:3306/MyDesignExperienceDB"; 
-                String user = "root"; 
-                String pass = "";
+            UserDao userDao = new UserDaoImpl();
+            User user1 = new User();
 
-                // create a connection to the database
-                conn = DriverManager.getConnection(url, user, pass);
-                // more processing here
-                // ... 
-                // SQL request to insert user
-                String sql = "INSERT INTO Users (username, password, user_type, name, firstname, email, phoneNumber) VALUES ( ? , ? , 'customer', ? , ? , ? , ?)";
-                              
-                pst = conn.prepareStatement(sql);
-                pst.setString(1, username);
-                pst.setString(2, password);
-                pst.setString(3,name);
-                pst.setString(4,firstname);
-                pst.setString(5,email);
-                pst.setString(6,phoneNumber);
-                
-         
-                int rs = pst.executeUpdate();
-                if (rs > 0) {
-                    JOptionPane.showMessageDialog(this, "Account created successfully!", "Success", JOptionPane.INFORMATION_MESSAGE);
-                    MyLoginPage login = new MyLoginPage();
-                    login.setVisible(true);
-                } else {
-                    JOptionPane.showMessageDialog(this, "Account creation failed.", "Error", JOptionPane.ERROR_MESSAGE);
-                }
-                
+            user1.setUsername(username);
+            user1.setUserType(userType);
+            user1.setPassword(password);
+            user1.setName(name);
+            user1.setEmail(email);
+            user1.setFirstname(firstname);
+            user1.setPhoneNumber(phoneNumber);
 
+            userDao.addUser(user1);
+
+            int rs = -1;
+            if (rs > 0) {
+                JOptionPane.showMessageDialog(this, "Account created successfully!", "Success", JOptionPane.INFORMATION_MESSAGE);
+                MyLoginPage login = new MyLoginPage();
+                login.setVisible(true);
+            } 
                 
-        } catch(SQLException e) {
+        } catch(Exception e) {
              System.out.println(e.getMessage());
 
         } finally {
-            try{     
-                if (pst != null) pst.close();
-                if (conn != null) conn.close();
-            }catch(SQLException ex){
-                   System.out.println(ex.getMessage());
-            }
+            
 
         } 
     }//GEN-LAST:event_btnCreateUserActionPerformed
@@ -257,26 +267,28 @@ public class CreateUserCustomerPage extends javax.swing.JFrame {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(CreateUserCustomerPage.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(RegisterUserPage.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(CreateUserCustomerPage.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(RegisterUserPage.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(CreateUserCustomerPage.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(RegisterUserPage.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(CreateUserCustomerPage.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(RegisterUserPage.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
+        //</editor-fold>
         //</editor-fold>
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new CreateUserCustomerPage().setVisible(true);
+                new RegisterUserPage().setVisible(true);
             }
         });
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnCreateUser;
+    private javax.swing.JComboBox<String> cbUserType;
     private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
@@ -285,6 +297,7 @@ public class CreateUserCustomerPage extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JPanel jPanel1;
+    private javax.swing.JLabel lblUserType;
     private javax.swing.JTextField txtEmail;
     private javax.swing.JTextField txtFirstname;
     private javax.swing.JTextField txtName;
