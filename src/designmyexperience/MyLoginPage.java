@@ -178,41 +178,29 @@ public class MyLoginPage extends javax.swing.JFrame {
         ResultSet rs = null;
 
         try {
-            // db parameters 
-            String url = "jdbc:mysql://localhost:3306/MyDesignExperienceDB"; 
-            String user = "root"; 
-            String pass = "";
-
-            // create a connection to the database
-            conn = DriverManager.getConnection(url, user, pass);
-            // more processing here
-            // ... 
-            // SQL request
-            String sql = "SELECT * FROM users WHERE username = ? AND password = ?";
-            pst = conn.prepareStatement(sql);
-            pst.setString(1, username);
-            pst.setString(2, password);
-
-            rs = pst.executeQuery();
             
-            UserDao uD = new UserDaoImpl();
+            UserMDE uD = new UserMDEImpl();
             User u = uD.getUser(username, password);
             System.out.println(u);
-            // user does exist
-            if (rs.next()) {
+
+            if (u.getUserTypeStr().equals("customer")) {
                 JOptionPane.showMessageDialog(this, "Connexion completed !", "Logged", JOptionPane.INFORMATION_MESSAGE);
 
-                // UserPage opening
-                CustomerLoggedPage customerPage = new CustomerLoggedPage();
+                // Customer Page opening
+                CustomerLoggedPage customerPage = new CustomerLoggedPage(u);
                 customerPage.setVisible(true);
-
-                // MyLoginPage closing
+                this.dispose();
+                
+            }else if (u.getUserTypeStr().equals("business_owner")){
+                // BusinessOwener Page opening
+                BusinessOwnerLoggedPage businessOwnerPage = new BusinessOwnerLoggedPage(u);
+                businessOwnerPage.setVisible(true);
                 this.dispose();
                 
             } else { // user does not exist
                 JOptionPane.showMessageDialog(this, "Username or password incorrect", "Error", JOptionPane.ERROR_MESSAGE);
+                
             }
-
         } catch (Exception e) {
             JOptionPane.showMessageDialog(this, "Error when connecting : " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
         } finally {

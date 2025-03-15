@@ -4,7 +4,6 @@
  */
 package designmyexperience;
 
-import daodemo.DataSource;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -16,7 +15,7 @@ import java.sql.ResultSetMetaData;
  *
  * @author proza
  */
-public class UserDaoImpl implements UserDao {
+public class UserMDEImpl implements UserMDE {
     
     public void addUser(User user)
     {

@@ -10,10 +10,16 @@ package designmyexperience;
  */
 public class CustomerLoggedPage extends javax.swing.JFrame {
 
+    private User currentUser;
     /**
      * Creates new form CustomerLoggedPage
      */
     public CustomerLoggedPage() {
+        initComponents();
+    }
+    
+    public CustomerLoggedPage(User u){
+        this.currentUser = u;
         initComponents();
     }
 

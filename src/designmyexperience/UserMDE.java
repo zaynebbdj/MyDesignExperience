@@ -8,7 +8,7 @@ package designmyexperience;
  *
  * @author proza
  */
-public interface UserDao {
+public interface UserMDE {
     
     public void addUser(User user);
     

@@ -221,7 +221,7 @@ public class RegisterUserPage extends javax.swing.JFrame {
         }
         
         try {
-            UserDao userDao = new UserDaoImpl();
+            UserMDE userDao = new UserMDEImpl();
             User user1 = new User();
 
             user1.setUsername(username);

@@ -39,6 +39,10 @@ public class User {
     public UserType getUserType(){
         return this.userType;
     }
+    
+    public String getUserTypeStr(){
+        return this.userType.name().toLowerCase();
+    }
     public int getUserId(){
         return this.userId;
     }
