@@ -204,7 +204,7 @@ public class CustomerLoggedPage extends javax.swing.JFrame {
 
     private void btnActivityPageActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnActivityPageActionPerformed
         // TODO add your handling code here:
-        ActivityPage activityPage = new ActivityPage();
+        CustomerActivityPage activityPage = new CustomerActivityPage();
         activityPage.setVisible(true);
     }//GEN-LAST:event_btnActivityPageActionPerformed
 

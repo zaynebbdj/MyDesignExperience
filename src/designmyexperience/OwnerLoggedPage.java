@@ -14,16 +14,16 @@ import javax.swing.JOptionPane;
  *
  * @author proza
  */
-public class BusinessOwnerLoggedPage extends javax.swing.JFrame {
+public class OwnerLoggedPage extends javax.swing.JFrame {
 
     private User currentUser;
     /**
      * Creates new form BusinessOwnerLoggedPage
      */
-    public BusinessOwnerLoggedPage() {
+    public OwnerLoggedPage() {
         initComponents();
     }
-    public BusinessOwnerLoggedPage(User u){
+    public OwnerLoggedPage(User u){
         this.currentUser = u;
         initComponents();
     }
@@ -41,6 +41,7 @@ public class BusinessOwnerLoggedPage extends javax.swing.JFrame {
         jLabel1 = new javax.swing.JLabel();
         btnLogOut = new javax.swing.JButton();
         btnAddActivity = new javax.swing.JButton();
+        btnListActivity = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -63,6 +64,13 @@ public class BusinessOwnerLoggedPage extends javax.swing.JFrame {
             }
         });
 
+        btnListActivity.setText("List of the activity");
+        btnListActivity.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnListActivityActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -75,8 +83,10 @@ public class BusinessOwnerLoggedPage extends javax.swing.JFrame {
                 .addGap(143, 143, 143))
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGap(411, 411, 411)
-                .addComponent(btnAddActivity)
-                .addContainerGap(399, Short.MAX_VALUE))
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(btnAddActivity, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(btnListActivity, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(398, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -87,7 +97,9 @@ public class BusinessOwnerLoggedPage extends javax.swing.JFrame {
                     .addComponent(btnLogOut))
                 .addGap(75, 75, 75)
                 .addComponent(btnAddActivity)
-                .addContainerGap(313, Short.MAX_VALUE))
+                .addGap(27, 27, 27)
+                .addComponent(btnListActivity)
+                .addContainerGap(259, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -118,6 +130,15 @@ public class BusinessOwnerLoggedPage extends javax.swing.JFrame {
         this.dispose();
     }//GEN-LAST:event_btnAddActivityActionPerformed
 
+    private void btnListActivityActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnListActivityActionPerformed
+        // TODO add your handling code here:
+        
+        
+        OwnerListActivityPage l = new OwnerListActivityPage(currentUser);
+        l.setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_btnListActivityActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -135,26 +156,28 @@ public class BusinessOwnerLoggedPage extends javax.swing.JFrame {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(BusinessOwnerLoggedPage.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(OwnerLoggedPage.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(BusinessOwnerLoggedPage.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(OwnerLoggedPage.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(BusinessOwnerLoggedPage.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(OwnerLoggedPage.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(BusinessOwnerLoggedPage.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(OwnerLoggedPage.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
+        //</editor-fold>
         //</editor-fold>
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new BusinessOwnerLoggedPage().setVisible(true);
+                new OwnerLoggedPage().setVisible(true);
             }
         });
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAddActivity;
+    private javax.swing.JButton btnListActivity;
     private javax.swing.JButton btnLogOut;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JPanel jPanel1;

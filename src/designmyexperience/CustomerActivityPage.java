@@ -11,12 +11,12 @@ import java.sql.*;
  *
  * @author proza
  */
-public class ActivityPage extends javax.swing.JFrame {
+public class CustomerActivityPage extends javax.swing.JFrame {
 
     /**
      * Creates new form ActivityPage
      */
-    public ActivityPage() {
+    public CustomerActivityPage() {
         initComponents();
         listActivity.setModel(listModel); // model lsit
         loadActivities();   // load the list of all activity
@@ -44,7 +44,6 @@ public class ActivityPage extends javax.swing.JFrame {
         jPanel1.setBackground(new java.awt.Color(255, 255, 255));
 
         jLabel1.setFont(new java.awt.Font("Segoe UI", 2, 18)); // NOI18N
-        jLabel1.setForeground(new java.awt.Color(0, 0, 0));
         jLabel1.setText("MyDesignExperience");
 
         listActivity.setModel(new javax.swing.AbstractListModel<String>() {
@@ -54,7 +53,6 @@ public class ActivityPage extends javax.swing.JFrame {
         });
         jScrollPane1.setViewportView(listActivity);
 
-        jLabel2.setForeground(new java.awt.Color(0, 0, 0));
         jLabel2.setText("Theme :");
 
         jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "theme 1", "theme 2", "theme 3", "theme 4" }));

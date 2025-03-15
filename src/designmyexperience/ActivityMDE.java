@@ -4,6 +4,9 @@
  */
 package designmyexperience;
 
+import javax.swing.DefaultListModel;
+import java.util.ArrayList;
+
 /**
  *
  * @author proza
@@ -11,4 +14,8 @@ package designmyexperience;
 public interface ActivityMDE {
     
     public void addActivity(Activity activity);
+    
+    public ArrayList<Activity> getAllActivity(int ownerId);
+    
+    // public List<Activity> getAllActivity();
 }

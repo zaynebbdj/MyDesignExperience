@@ -233,20 +233,15 @@ public class RegisterUserPage extends javax.swing.JFrame {
             user1.setPhoneNumber(phoneNumber);
 
             userDao.addUser(user1);
-
-            int rs = -1;
-            if (rs > 0) {
-                JOptionPane.showMessageDialog(this, "Account created successfully!", "Success", JOptionPane.INFORMATION_MESSAGE);
-                MyLoginPage login = new MyLoginPage();
-                login.setVisible(true);
-            } 
                 
         } catch(Exception e) {
              System.out.println(e.getMessage());
 
         } finally {
-            
-
+            JOptionPane.showMessageDialog(this, "Account created successfully!", "Success", JOptionPane.INFORMATION_MESSAGE);
+            MyLoginPage login = new MyLoginPage();
+            login.setVisible(true);
+            this.dispose();
         } 
     }//GEN-LAST:event_btnCreateUserActionPerformed
 
