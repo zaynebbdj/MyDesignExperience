@@ -125,7 +125,7 @@ public class OwnerHomePage extends javax.swing.JFrame {
 
     private void btnAddActivityActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddActivityActionPerformed
         // TODO add your handling code here:
-        AddActivityPage activity = new AddActivityPage(currentUser);
+        OwnerAddActivityPage activity = new OwnerAddActivityPage(currentUser);
         activity.setVisible(true);
         this.dispose();
     }//GEN-LAST:event_btnAddActivityActionPerformed

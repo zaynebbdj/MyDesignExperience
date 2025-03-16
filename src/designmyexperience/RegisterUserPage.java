@@ -188,8 +188,6 @@ public class RegisterUserPage extends javax.swing.JFrame {
                 .addContainerGap(101, Short.MAX_VALUE))
         );
 
-        lblImage.setText("jLabel7");
-
         jButton2.setText("Browse");
         jButton2.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {

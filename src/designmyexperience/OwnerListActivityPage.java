@@ -6,6 +6,7 @@ package designmyexperience;
 import java.awt.Color;
 import javax.swing.DefaultListModel;
 import java.util.ArrayList;
+import java.util.HashMap;
 import javax.swing.table.DefaultTableModel;
 
 /**
@@ -17,6 +18,9 @@ public class OwnerListActivityPage extends javax.swing.JFrame {
     private User currentUser;
     private DefaultListModel<String> listModel = new DefaultListModel<>();
     private DefaultTableModel model;
+    private HashMap<Integer, Integer> activityIdMap = new HashMap<>();
+    int rowSelected;
+
     /**
      * Creates new form ListActivityPage
      */
@@ -24,7 +28,6 @@ public class OwnerListActivityPage extends javax.swing.JFrame {
         initComponents();
         UserMDE uD = new UserMDEImpl();
         currentUser = uD.getUser("Zaya369", "spaceX");
-        listActivity.setModel(listModel);
         init();
     }
     
@@ -32,7 +35,6 @@ public class OwnerListActivityPage extends javax.swing.JFrame {
         this.currentUser = u;
         initComponents();
         init();
-        listActivity.setModel(listModel);
     }
 
      public void init(){
@@ -58,25 +60,28 @@ public class OwnerListActivityPage extends javax.swing.JFrame {
     public void getActivityValue(){
         ArrayList<Activity> activities = new ArrayList<Activity>();
         try{
+            String theme = cbTheme.getSelectedItem().toString();
+            
             ActivityMDE aMde = new ActivityMDEImpl();
-            activities = aMde.getAllActivity(currentUser.getUserId());
+            activities = aMde.getAllActivityTheme(currentUser.getUserId(),theme);
             DefaultTableModel model = (DefaultTableModel) tableActivity.getModel();
             Object[] row;
-            System.out.println("size list: "+ activities.size());
+            activityIdMap.clear();
             for (int i =0; i < activities.size(); i++){
-                System.out.println(activities.get(i).getName());
+                Activity a = activities.get(i);
+                activityIdMap.put(i, a.getActivityId());
                 row = new Object[11];
-                row[0] = activities.get(i).getActivityId();
-                row[1] = activities.get(i).getName();
-                row[2] = activities.get(i).getDescription();
-                row[3] = activities.get(i).getThemeStr();
-                row[4] = activities.get(i).getMonth();
-                row[5] = activities.get(i).getOwnerId();
-                row[6] = activities.get(i).getFee();
-                row[7] = activities.get(i).getAddress();
-                row[8] = activities.get(i).getMaxParticipant();
-                row[9] = activities.get(i).getDuration();
-                row[10] = activities.get(i).getImagePath();
+                row[0] = a.getActivityId();
+                row[1] = a.getName();
+                row[2] = a.getDescription();
+                row[3] = a.getThemeStr();
+                row[4] = a.getMonth();
+                row[5] = a.getOwnerId();
+                row[6] = a.getFee();
+                row[7] = a.getAddress();
+                row[8] = a.getMaxParticipant();
+                row[9] = a.getDuration();
+                row[10] = a.getImagePath();
                 
                 model.addRow(row);
             }
@@ -96,70 +101,23 @@ public class OwnerListActivityPage extends javax.swing.JFrame {
 
         buttonGroup1 = new javax.swing.ButtonGroup();
         jPanel1 = new javax.swing.JPanel();
-        jScrollPane1 = new javax.swing.JScrollPane();
-        listActivity = new javax.swing.JList<>();
-        cbTheme = new javax.swing.JComboBox<>();
-        lblTheme = new javax.swing.JLabel();
-        lblName = new javax.swing.JLabel();
-        txtField = new javax.swing.JTextField();
-        rbTheme = new javax.swing.JRadioButton();
-        lblFilter = new javax.swing.JLabel();
-        rbName = new javax.swing.JRadioButton();
-        rbFee = new javax.swing.JRadioButton();
-        lblFee = new javax.swing.JLabel();
-        txtFee = new javax.swing.JTextField();
-        btnFilter = new javax.swing.JButton();
-        rbNone = new javax.swing.JRadioButton();
         jPanel2 = new javax.swing.JPanel();
         jScrollPane2 = new javax.swing.JScrollPane();
         tableActivity = new javax.swing.JTable();
+        btnAdd = new javax.swing.JButton();
+        jButton2 = new javax.swing.JButton();
+        jButton3 = new javax.swing.JButton();
+        jButton4 = new javax.swing.JButton();
+        btnDiscount = new javax.swing.JButton();
+        jPanel3 = new javax.swing.JPanel();
+        lblTheme = new javax.swing.JLabel();
+        btnFilter = new javax.swing.JButton();
+        cbTheme = new javax.swing.JComboBox<>();
+        jButton1 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        listActivity.setModel(new javax.swing.AbstractListModel<String>() {
-            String[] strings = { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" };
-            public int getSize() { return strings.length; }
-            public String getElementAt(int i) { return strings[i]; }
-        });
-        jScrollPane1.setViewportView(listActivity);
-
-        cbTheme.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "NONE", "SPORT", "CINEMA", "CULTURE", "FOOD" }));
-
-        lblTheme.setText("Theme :");
-
-        lblName.setText("Name :");
-
-        txtField.setText("name");
-
-        buttonGroup1.add(rbTheme);
-        rbTheme.setText("Theme");
-
-        lblFilter.setText("Filter :");
-
-        buttonGroup1.add(rbName);
-        rbName.setText("Name");
-
-        buttonGroup1.add(rbFee);
-        rbFee.setText("Fee");
-
-        lblFee.setText("Fee (lower than) :");
-
-        btnFilter.setBackground(new java.awt.Color(204, 255, 204));
-        btnFilter.setForeground(new java.awt.Color(0, 0, 0));
-        btnFilter.setText("Valid filter");
-        btnFilter.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnFilterActionPerformed(evt);
-            }
-        });
-
-        buttonGroup1.add(rbNone);
-        rbNone.setText("None");
-        rbNone.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                rbNoneActionPerformed(evt);
-            }
-        });
+        jPanel1.setBackground(new java.awt.Color(153, 153, 255));
 
         jPanel2.setBackground(new java.awt.Color(204, 204, 255));
 
@@ -171,17 +129,124 @@ public class OwnerListActivityPage extends javax.swing.JFrame {
                 "Id", "Name", "Description", "Theme", "Date", "Owner Id", "Fee", "Address", "Participants", "duration", "image path"
             }
         ));
+        tableActivity.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tableActivityMouseClicked(evt);
+            }
+        });
         jScrollPane2.setViewportView(tableActivity);
+
+        btnAdd.setText("Add Activity");
+        btnAdd.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnAddActionPerformed(evt);
+            }
+        });
+
+        jButton2.setText("delete TODO");
+
+        jButton3.setText("modify TODO");
+
+        jButton4.setText("Home");
+        jButton4.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton4ActionPerformed(evt);
+            }
+        });
+
+        btnDiscount.setText("Add discount");
+        btnDiscount.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnDiscountActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane2)
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 678, Short.MAX_VALUE)
+                        .addContainerGap())
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addGap(12, 12, 12)
+                        .addComponent(btnAdd)
+                        .addGap(18, 18, 18)
+                        .addComponent(jButton2)
+                        .addGap(18, 18, 18)
+                        .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(55, 55, 55)
+                        .addComponent(btnDiscount)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jButton4)
+                        .addGap(51, 51, 51))))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 354, Short.MAX_VALUE)
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 342, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(49, 49, 49)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(btnAdd)
+                    .addComponent(jButton2)
+                    .addComponent(jButton3)
+                    .addComponent(jButton4)
+                    .addComponent(btnDiscount))
+                .addContainerGap(124, Short.MAX_VALUE))
+        );
+
+        jPanel3.setBackground(new java.awt.Color(204, 204, 255));
+
+        lblTheme.setForeground(new java.awt.Color(0, 0, 0));
+        lblTheme.setText("Theme :");
+
+        btnFilter.setBackground(new java.awt.Color(204, 255, 204));
+        btnFilter.setForeground(new java.awt.Color(0, 0, 0));
+        btnFilter.setText("Valid filter");
+        btnFilter.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnFilterActionPerformed(evt);
+            }
+        });
+
+        cbTheme.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "ALL", "SPORT", "CINEMA", "CULTURE", "FOOD" }));
+
+        jButton1.setText("Log Out");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
+        jPanel3.setLayout(jPanel3Layout);
+        jPanel3Layout.setHorizontalGroup(
+            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel3Layout.createSequentialGroup()
+                .addGap(28, 28, 28)
+                .addComponent(lblTheme, javax.swing.GroupLayout.PREFERRED_SIZE, 55, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(cbTheme, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(btnFilter)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 149, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
+        );
+        jPanel3Layout.setVerticalGroup(
+            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel3Layout.createSequentialGroup()
+                .addGap(18, 18, 18)
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(lblTheme)
+                    .addComponent(cbTheme, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnFilter)
+                    .addComponent(jButton1))
+                .addContainerGap(20, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
@@ -189,68 +254,17 @@ public class OwnerListActivityPage extends javax.swing.JFrame {
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(47, 47, 47)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(btnFilter)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 536, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(lblFilter, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel1Layout.createSequentialGroup()
-                                .addComponent(rbTheme, javax.swing.GroupLayout.PREFERRED_SIZE, 74, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(rbName, javax.swing.GroupLayout.PREFERRED_SIZE, 68, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addComponent(lblTheme, javax.swing.GroupLayout.PREFERRED_SIZE, 55, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(cbTheme, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addGap(35, 35, 35)
-                                .addComponent(lblName, javax.swing.GroupLayout.PREFERRED_SIZE, 53, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(rbFee, javax.swing.GroupLayout.PREFERRED_SIZE, 82, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addGap(31, 31, 31)
-                                .addComponent(txtField, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(18, 18, 18)
-                                .addComponent(lblFee, javax.swing.GroupLayout.PREFERRED_SIZE, 94, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(txtFee, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(rbNone, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)))))
-                .addContainerGap(108, Short.MAX_VALUE))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(41, 41, 41)
-                .addComponent(lblFilter)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(rbTheme)
-                    .addComponent(rbName)
-                    .addComponent(rbFee)
-                    .addComponent(rbNone))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(cbTheme, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(lblTheme)
-                    .addComponent(lblName)
-                    .addComponent(txtField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(lblFee)
-                    .addComponent(txtFee, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(btnFilter)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 103, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap()
+                .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
@@ -272,36 +286,48 @@ public class OwnerListActivityPage extends javax.swing.JFrame {
 
     
     private void btnFilterActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnFilterActionPerformed
-        // TODO add your handling code here:
-        ActivityMDE aMde = new ActivityMDEImpl();
-        
-        ArrayList<Activity> activities = aMde.getAllActivity(currentUser.getUserId());
-        listModel.clear();
-        
-        if( rbTheme.isSelected() == true){
-        
-            for(int i = 0; i < activities.size(); i++) {   
-                String themeA = activities.get(i).getThemeStr();
-                if(themeA.equals(cbTheme.getSelectedItem().toString()))
-                    listModel.addElement(activities.get(i).getName());
-            }
-        }else if( rbName.isSelected() == true){
-        
-        }else if( rbFee.isSelected() == true){
-        
-        }else if( rbNone.isSelected() == true){
-            for(int i = 0; i < activities.size(); i++) {   
-                listModel.addElement(activities.get(i).getName());
-            }
-        }
-        
-        
+        init();
         
     }//GEN-LAST:event_btnFilterActionPerformed
 
-    private void rbNoneActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rbNoneActionPerformed
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_rbNoneActionPerformed
+        MyLoginPage p = new MyLoginPage();
+        p.setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void btnAddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddActionPerformed
+        // TODO add your handling code here:
+        
+        OwnerAddActivityPage p = new OwnerAddActivityPage(currentUser);
+        p.setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_btnAddActionPerformed
+
+    private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
+        // TODO add your handling code here:
+        OwnerHomePage p = new OwnerHomePage(currentUser);
+        p.setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_jButton4ActionPerformed
+
+    private void btnDiscountActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDiscountActionPerformed
+        // TODO add your handling code here:
+        if (rowSelected != -1 && activityIdMap.containsKey(rowSelected)) {
+            ActivityMDE aMde = new ActivityMDEImpl();
+            Activity a = aMde.getActivity(activityIdMap.get(rowSelected));
+            OwnerAddDiscountPage p = new OwnerAddDiscountPage(this.currentUser, a);
+            p.setVisible(true);
+            this.dispose();
+        }
+    }//GEN-LAST:event_btnDiscountActionPerformed
+
+    private void tableActivityMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tableActivityMouseClicked
+        // TODO add your handling code here:
+        model = (DefaultTableModel) tableActivity.getModel();
+        rowSelected = tableActivity.getSelectedRow();
+    }//GEN-LAST:event_tableActivityMouseClicked
 
     /**
      * @param args the command line arguments
@@ -341,24 +367,20 @@ public class OwnerListActivityPage extends javax.swing.JFrame {
     
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnAdd;
+    private javax.swing.JButton btnDiscount;
     private javax.swing.JButton btnFilter;
     private javax.swing.ButtonGroup buttonGroup1;
     private javax.swing.JComboBox<String> cbTheme;
+    private javax.swing.JButton jButton1;
+    private javax.swing.JButton jButton2;
+    private javax.swing.JButton jButton3;
+    private javax.swing.JButton jButton4;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
-    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JPanel jPanel3;
     private javax.swing.JScrollPane jScrollPane2;
-    private javax.swing.JLabel lblFee;
-    private javax.swing.JLabel lblFilter;
-    private javax.swing.JLabel lblName;
     private javax.swing.JLabel lblTheme;
-    private javax.swing.JList<String> listActivity;
-    private javax.swing.JRadioButton rbFee;
-    private javax.swing.JRadioButton rbName;
-    private javax.swing.JRadioButton rbNone;
-    private javax.swing.JRadioButton rbTheme;
     private javax.swing.JTable tableActivity;
-    private javax.swing.JTextField txtFee;
-    private javax.swing.JTextField txtField;
     // End of variables declaration//GEN-END:variables
 }

@@ -112,10 +112,10 @@ public class UserMDEImpl implements UserMDE {
                 String firstname = rs.getString("firstname");
                 String email = rs.getString("email");
                 String phoneNumber = rs.getString("phoneNumber");
-                String imagePath = rs.getString("photo");
+                String imagePath = rs.getString("photo_path");
                 
                 currentUser = new User(userId, userType, username, password, name, firstname, email, phoneNumber, imagePath);
-                System.out.println("created");
+                System.out.println("created :" +imagePath+" : "+currentUser.getImagePath());
             }else{
                 System.out.println("No user found.");
                 currentUser = null;

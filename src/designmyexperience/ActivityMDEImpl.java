@@ -33,7 +33,7 @@ public class ActivityMDEImpl implements ActivityMDE {
             dbConnection = dataSource.createConnection();
             statement = dbConnection.createStatement();
             
-            ResultSet rs=statement.executeQuery("SELECT * FROM activity WHERE user_id = "+ activityId);           ///////////////////
+            ResultSet rs=statement.executeQuery("SELECT * FROM activity WHERE activity_id = "+ activityId);           ///////////////////
             
             
             if(rs.next()) {
@@ -42,9 +42,8 @@ public class ActivityMDEImpl implements ActivityMDE {
                 int year = date.getYear();
                 int month = date.getMonthValue();
                 int day = date.getDayOfMonth();
-                
                 // Create Activity object
-                Activity a = new Activity(
+                currentActivity = new Activity(
                     rs.getInt("activity_id"),
                     rs.getString("name"),
                     rs.getString("description"),
@@ -57,7 +56,7 @@ public class ActivityMDEImpl implements ActivityMDE {
                     rs.getInt("duration"),
                     rs.getString("image_path")
                 );
-                System.out.println("activity retrieved");
+                
                 
             }
         }
@@ -84,6 +83,8 @@ public class ActivityMDEImpl implements ActivityMDE {
                     e.printStackTrace();
                 }
             }
+            
+            
             return currentActivity;
         }
     }
@@ -309,4 +310,78 @@ public class ActivityMDEImpl implements ActivityMDE {
         return activities;
     }
     
+    public ArrayList<Activity> getAllActivityTheme(int ownerId, String theme){
+    
+        ArrayList<Activity> activities = new ArrayList<Activity>();
+        Connection dbConnection = null;
+        Statement statement=null;
+        LocalDate date = null;
+        ResultSet rs =null;
+        try{
+            // Create Connecction to my database
+            DataSource dataSource = new DataSource();
+            dbConnection = dataSource.createConnection();
+            statement = dbConnection.createStatement();
+            
+            if(theme.equals("ALL")){
+                rs=statement.executeQuery("SELECT * FROM activity");
+            }else{
+                rs=statement.executeQuery("SELECT * FROM activity WHERE user_id = '" + ownerId+"'AND theme = '"+ theme +"'");     
+            }
+            
+            
+            while(rs.next()) {
+                
+                date = rs.getDate("activity_date").toLocalDate();
+                int year = date.getYear();
+                int month = date.getMonthValue();
+                int day = date.getDayOfMonth();
+                
+                // Create Activity object
+                Activity a = new Activity(
+                    rs.getInt("activity_id"),
+                    rs.getString("name"),
+                    rs.getString("description"),
+                    ActivityTheme.valueOf(rs.getString("theme").toUpperCase()),
+                    rs.getInt("user_id"),
+                    day, month, year, 
+                    rs.getDouble("fee"),
+                    rs.getString("address"),
+                    rs.getInt("max_participants"),
+                    rs.getInt("duration"),
+                    rs.getString("image_path")
+                );
+                System.out.println("ajout de: "+ a.getName());
+                activities.add(a);
+                
+            }
+        }
+        catch( SQLException e ){
+
+            e.printStackTrace();
+        }
+        finally{
+
+            if( statement != null ){
+                try {
+                  statement.close();
+                }
+                catch( SQLException e ){
+                  e.printStackTrace();
+                }
+            }
+
+            if( dbConnection != null ){
+                try{
+                  dbConnection.close();
+                }
+                catch( SQLException e ){
+                    e.printStackTrace();
+                }
+            }
+        }
+        
+        
+        return activities;
+    }
 }

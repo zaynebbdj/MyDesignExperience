@@ -19,6 +19,8 @@ public interface ActivityMDE {
     
     public ArrayList<Activity> getAllActivityTheme(String theme);
     
+    public ArrayList<Activity> getAllActivityTheme(int ownerId, String theme);
+    
     public Activity getActivity(int activityId);
     
     // public List<Activity> getAllActivity();
