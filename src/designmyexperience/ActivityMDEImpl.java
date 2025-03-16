@@ -22,6 +22,71 @@ import java.sql.Date;
  */
 public class ActivityMDEImpl implements ActivityMDE {
     
+    public Activity getActivity(int activityId){
+        Activity currentActivity = new Activity();
+        Connection dbConnection = null;
+        Statement statement=null;
+        LocalDate date = null;
+        try{
+            // Create Connecction to my database
+            DataSource dataSource = new DataSource();
+            dbConnection = dataSource.createConnection();
+            statement = dbConnection.createStatement();
+            
+            ResultSet rs=statement.executeQuery("SELECT * FROM activity WHERE user_id = "+ activityId);           ///////////////////
+            
+            
+            if(rs.next()) {
+                
+                date = rs.getDate("activity_date").toLocalDate();
+                int year = date.getYear();
+                int month = date.getMonthValue();
+                int day = date.getDayOfMonth();
+                
+                // Create Activity object
+                Activity a = new Activity(
+                    rs.getInt("activity_id"),
+                    rs.getString("name"),
+                    rs.getString("description"),
+                    ActivityTheme.valueOf(rs.getString("theme").toUpperCase()),
+                    rs.getInt("user_id"),
+                    day, month, year, 
+                    rs.getDouble("fee"),
+                    rs.getString("address"),
+                    rs.getInt("max_participants"),
+                    rs.getInt("duration"),
+                    rs.getString("image_path")
+                );
+                System.out.println("activity retrieved");
+                
+            }
+        }
+        catch( SQLException e ){
+
+            e.printStackTrace();
+        }
+        finally{
+
+            if( statement != null ){
+                try {
+                  statement.close();
+                }
+                catch( SQLException e ){
+                  e.printStackTrace();
+                }
+            }
+
+            if( dbConnection != null ){
+                try{
+                  dbConnection.close();
+                }
+                catch( SQLException e ){
+                    e.printStackTrace();
+                }
+            }
+            return currentActivity;
+        }
+    }
     public void addActivity(Activity activity){
         Connection dbConnection = null;
         Statement statement=null;
@@ -113,6 +178,80 @@ public class ActivityMDEImpl implements ActivityMDE {
             statement = dbConnection.createStatement();
             
             ResultSet rs=statement.executeQuery("SELECT * FROM activity WHERE user_id = "+ ownerId);           ///////////////////
+            
+            
+            while(rs.next()) {
+                
+                date = rs.getDate("activity_date").toLocalDate();
+                int year = date.getYear();
+                int month = date.getMonthValue();
+                int day = date.getDayOfMonth();
+                
+                // Create Activity object
+                Activity a = new Activity(
+                    rs.getInt("activity_id"),
+                    rs.getString("name"),
+                    rs.getString("description"),
+                    ActivityTheme.valueOf(rs.getString("theme").toUpperCase()),
+                    rs.getInt("user_id"),
+                    day, month, year, 
+                    rs.getDouble("fee"),
+                    rs.getString("address"),
+                    rs.getInt("max_participants"),
+                    rs.getInt("duration"),
+                    rs.getString("image_path")
+                );
+                System.out.println("ajout de: "+ a.getName());
+                activities.add(a);
+                
+            }
+        }
+        catch( SQLException e ){
+
+            e.printStackTrace();
+        }
+        finally{
+
+            if( statement != null ){
+                try {
+                  statement.close();
+                }
+                catch( SQLException e ){
+                  e.printStackTrace();
+                }
+            }
+
+            if( dbConnection != null ){
+                try{
+                  dbConnection.close();
+                }
+                catch( SQLException e ){
+                    e.printStackTrace();
+                }
+            }
+        }
+        
+        
+        return activities;
+    }
+    public ArrayList<Activity> getAllActivityTheme(String theme){
+    
+        ArrayList<Activity> activities = new ArrayList<Activity>();
+        Connection dbConnection = null;
+        Statement statement=null;
+        LocalDate date = null;
+        ResultSet rs =null;
+        try{
+            // Create Connecction to my database
+            DataSource dataSource = new DataSource();
+            dbConnection = dataSource.createConnection();
+            statement = dbConnection.createStatement();
+            
+            if(theme.equals("ALL")){
+                rs=statement.executeQuery("SELECT * FROM activity");
+            }else{
+                rs=statement.executeQuery("SELECT * FROM activity WHERE theme = '"+ theme +"'");     
+            }
             
             
             while(rs.next()) {

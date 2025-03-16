@@ -17,10 +17,11 @@ public class User {
     private String firstname;
     private String email ;
     private String phoneNumber;
+    private String imagePath;
 
     public User(){}
 
-    public User(int userId, UserType userType, String username, String password, String name, String firstname, String email, String phoneNumber) {
+    public User(int userId, UserType userType, String username, String password, String name, String firstname, String email, String phoneNumber, String imagePath) {
         this.userId = userId;
         this.userType = userType;
         this.username = username;
@@ -29,6 +30,7 @@ public class User {
         this.firstname = firstname;
         this.email = email;
         this.phoneNumber = phoneNumber;
+        this.imagePath = imagePath;
     }
     
     public User(int userId, UserType userType) {
@@ -36,6 +38,12 @@ public class User {
         this.userType = userType;
     }
     
+    public void setImagePath(String imagePath){
+        this.imagePath = imagePath;
+    }
+    public String getImagePath(){
+        return this.imagePath;
+    }
     public UserType getUserType(){
         return this.userType;
     }

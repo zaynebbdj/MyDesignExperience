@@ -8,6 +8,7 @@ import java.sql.Connection;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.sql.ResultSet;
+import java.sql.PreparedStatement;
 import java.sql.ResultSetMetaData;
 
 
@@ -21,6 +22,7 @@ public class UserMDEImpl implements UserMDE {
     {
         Connection dbConnection = null;
         Statement statement=null;
+        PreparedStatement preparedStatement = null;
 
         String username = user.getUsername();
         String password = user.getPassword();
@@ -29,20 +31,38 @@ public class UserMDEImpl implements UserMDE {
         String firstname = user.getFirstname();
         String email = user.getEmail();
         String phoneNumber = user.getPhoneNumber();
+        String imagePath = user.getImagePath();
         
-        String sql = "INSERT INTO Users (username, password, user_type, name, firstname, email, phoneNumber) VALUES ('"
-        + username + "','" + password + "','" + userType + "','" + name + "','" + firstname + "','" + email + "','" + phoneNumber + "')";
- 
+        System.out.println(imagePath);
+        String sql = "INSERT INTO Users (username, password, user_type, name, firstname, email, phoneNumber, photo_path) " + 
+                "VALUES (?,?,?,?,?,?,?, ?)";
+        
+
         try{
+            // Create Connecction to my database
             DataSource dataSource = new DataSource();
             dbConnection = dataSource.createConnection();
             statement = dbConnection.createStatement();
 
-            statement.executeUpdate(sql);
+            // Create prepared statement
+            preparedStatement = dbConnection.prepareStatement(sql);
+            
+            // Set parameters in the prepared statement
+            preparedStatement.setString(1, username);
+            preparedStatement.setString(2, password);
+            preparedStatement.setString(3, userType);
+            preparedStatement.setString(4, name);  
+            preparedStatement.setString(5, firstname);  
+            preparedStatement.setString(6, email);
+            preparedStatement.setString(7, phoneNumber);
+            preparedStatement.setString(8, imagePath);
 
-            System.out.println("Record is inserted into Users table for User : " + user.getName());
-
+            // Execute the update (insert)
+            preparedStatement.executeUpdate();
+            
+            System.out.println("Record is inserted into activity table for name : " + user.getName());
         }
+        
         catch( SQLException e ){
 
             e.printStackTrace();
@@ -92,8 +112,9 @@ public class UserMDEImpl implements UserMDE {
                 String firstname = rs.getString("firstname");
                 String email = rs.getString("email");
                 String phoneNumber = rs.getString("phoneNumber");
+                String imagePath = rs.getString("photo");
                 
-                currentUser = new User(userId, userType, username, password, name, firstname, email, phoneNumber);
+                currentUser = new User(userId, userType, username, password, name, firstname, email, phoneNumber, imagePath);
                 System.out.println("created");
             }else{
                 System.out.println("No user found.");
