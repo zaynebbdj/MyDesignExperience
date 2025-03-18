@@ -22,6 +22,49 @@ import java.sql.Date;
  */
 public class ActivityMDEImpl implements ActivityMDE {
     
+    public void deleteActivity(int activityId){
+    
+        Connection dbConnection = null;
+        Statement statement=null;
+        try{
+            // Create Connecction to my database
+            DataSource dataSource = new DataSource();
+            dbConnection = dataSource.createConnection();
+            statement = dbConnection.createStatement();
+            
+            int rowsAffected = statement.executeUpdate("DELETE FROM activity WHERE activity_id = " + activityId);
+
+            if (rowsAffected > 0) {
+                System.out.println("Activity deleted successfully.");
+            } else {
+                System.out.println("No activity found with ID: " + activityId);
+            }
+        }
+        catch( SQLException e ){
+
+            e.printStackTrace();
+        }
+        finally{
+            if( statement != null ){
+                try {
+                  statement.close();
+                }
+                catch( SQLException e ){
+                  e.printStackTrace();
+                }
+            }
+            if( dbConnection != null ){
+                try{
+                  dbConnection.close();
+                }
+                catch( SQLException e ){
+                    e.printStackTrace();
+                }
+            }
+        }
+    
+    }
+    
     public Activity getActivity(int activityId){
         Activity currentActivity = new Activity();
         Connection dbConnection = null;
@@ -88,6 +131,7 @@ public class ActivityMDEImpl implements ActivityMDE {
             return currentActivity;
         }
     }
+    
     public void addActivity(Activity activity){
         Connection dbConnection = null;
         Statement statement=null;
@@ -139,6 +183,86 @@ public class ActivityMDEImpl implements ActivityMDE {
             preparedStatement.executeUpdate();
             
             System.out.println("Record is inserted into activity table for name : " + activity.getName());
+        }
+        catch( SQLException e ){
+
+            e.printStackTrace();
+        }
+        finally{
+
+            if( statement != null ){
+                try {
+                  statement.close();
+                }
+                catch( SQLException e ){
+                  e.printStackTrace();
+                }
+            }
+
+            if( dbConnection != null ){
+                try{
+                  dbConnection.close();
+                }
+                catch( SQLException e ){
+                    e.printStackTrace();
+                }
+            }
+        }
+    }
+    public void updateActivity(Activity activity){
+        System.out.println("updateActivity ID:" + activity.getActivityId());
+        Connection dbConnection = null;
+        Statement statement=null;
+        PreparedStatement preparedStatement = null;
+        
+        // Set the fields of the activity to add
+        String name = activity.getName();
+        String description = activity.getDescription(); 
+        String theme = activity.getThemeStr().toLowerCase();
+        int ownerId = activity.getOwnerId();
+        double fee = activity.getFee();
+        String address = activity.getAddress();
+        int maxParticipant = activity.getMaxParticipant();
+        int duration = activity.getDuration();
+        String imagePath = activity.getImagePath();
+
+        int year = activity.getYear();
+        int month = activity.getMonth();
+        int day = activity.getDay();
+        
+        String dateFormatted = String.format("%04d-%02d-%02d", year, month, day);
+        String sql = "UPDATE activity SET name = ?, description = ?, theme = ?, activity_date = ?, user_id = ?, fee = ?, address = ?, max_participants = ?, duration = ?, image_path = ? WHERE activity_id = ?"; 
+        // sql request
+        String sql1 = "INSERT INTO activity (name, description, theme, activity_date, user_id, fee, address, max_participants, duration, image_path) "
+               + "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+
+        try{
+            // Create Connecction to my database
+            DataSource dataSource = new DataSource();
+            dbConnection = dataSource.createConnection();
+            statement = dbConnection.createStatement();
+
+            // Create prepared statement
+            preparedStatement = dbConnection.prepareStatement(sql);
+            
+            // Set parameters in the prepared statement
+            preparedStatement.setString(1, name);
+            
+            preparedStatement.setString(2, description);
+            preparedStatement.setString(3, theme);
+            preparedStatement.setString(4, dateFormatted);  
+            preparedStatement.setInt(5, ownerId);  
+            preparedStatement.setDouble(6, fee);
+            preparedStatement.setString(7, address);
+            preparedStatement.setInt(8, maxParticipant);
+            preparedStatement.setInt(9, duration);
+            preparedStatement.setString(10, imagePath);
+            preparedStatement.setInt(11, activity.getActivityId());
+
+            // Execute the update (insert)
+            preparedStatement.executeUpdate();
+            
+            System.out.println("Record is updated activity table for name : " + activity.getName());
         }
         catch( SQLException e ){
 

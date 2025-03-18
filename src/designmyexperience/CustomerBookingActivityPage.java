@@ -58,7 +58,6 @@ public class CustomerBookingActivityPage extends javax.swing.JFrame {
     public void init(){
         lblImage.setIcon(imageAdjust(currentActivity.getImagePath(),null));
         lblNameA.setText(currentActivity.getName());
-        lblDescriptionA.setText(currentActivity.getDescription());
         lblDescriptionA.setText("<html><p style='width:150px;'>" + currentActivity.getDescription() + "</p></html>");
         
         lblAddressA.setText(currentActivity.getAddress());
