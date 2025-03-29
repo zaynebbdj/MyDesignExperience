@@ -12,7 +12,7 @@ import java.sql.Statement;
 
 /**
  *
- * @author maithili
+ * @author zayneb
  */
 public class DataSource {
     Connection conn = null;

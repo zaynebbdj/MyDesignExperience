@@ -16,19 +16,26 @@ import java.util.ArrayList;
 public class BookingMDEImpl implements BookingMDE {
     
     
-    public void addBooking(Booking b){
+    public void addBooking(Booking booking){
         
         Connection dbConnection = null;
         Statement statement = null;
         PreparedStatement preparedStatement = null;
         
         // setting of the booking filed
-        int userId = b.getUserId();
-        int activityId = b.getActivityId();
-        String status = b.getStatus().name();
+        int userId = booking.getUserId();
+        int activityId = booking.getActivityId();
         
-        String sql = "INSERT INTO discount (user_id, activity_id, status) " + 
-                "VALUES (?,?,?)";
+        int year = booking.getYear();
+        int month = booking.getMonth();
+        int day = booking.getDay();
+        String booking_date = String.format("%04d-%02d-%02d", year, month, day);
+        
+        String status = booking.getStatus().name();
+        
+        
+        String sql = "INSERT INTO booking (user_id, activity_id,booking_date,status) " + 
+                "VALUES (?,?,?,?)";
         
         try{
             // Create Connecction to my database
@@ -42,12 +49,13 @@ public class BookingMDEImpl implements BookingMDE {
             // Set parameters in the prepared statement
             preparedStatement.setInt(1, userId);
             preparedStatement.setInt(2, activityId);
-            preparedStatement.setString(3, status);
+            preparedStatement.setString(3, booking_date);
+            preparedStatement.setString(4, status);
 
             // Execute the update (insert)
             preparedStatement.executeUpdate();
             
-            System.out.println("Record is inserted into discount table for name : " + b.getUserId());
+            System.out.println("Record is inserted into discount table for name : " + booking.getUserId());
         }
         
         catch( SQLException e ){

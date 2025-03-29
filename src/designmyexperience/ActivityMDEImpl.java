@@ -132,6 +132,102 @@ public class ActivityMDEImpl implements ActivityMDE {
         }
     }
     
+    public ArrayList<Activity> getAllActivityThemeFee(String theme , String feeString){
+    
+        ArrayList<Activity> activities = new ArrayList<Activity>();
+        Connection dbConnection = null;
+        Statement statement=null;
+        LocalDate date = null;
+        ResultSet rs =null;
+        try{
+            // Create Connecction to my database
+            DataSource dataSource = new DataSource();
+            dbConnection = dataSource.createConnection();
+            statement = dbConnection.createStatement();
+        
+            
+            
+        String query = "SELECT * FROM activity WHERE 1=1"; 
+
+        if (!theme.equals("ALL")) {
+            query += " AND theme = '" + theme + "'";
+        }
+
+        if (!feeString.equals("ALL")) {
+            if (feeString.equals("<10£")) {
+                query += " AND fee < 10.00";
+            } else if (feeString.equals("[10£;20£]")) {
+                query += " AND fee BETWEEN 10.00 AND 20.00";
+            } else if (feeString.equals("[20£;50£]")) {
+                query += " AND fee BETWEEN 20.00 AND 50.00";
+            } else if (feeString.equals("[50£;100£]")) {
+                query += " AND fee BETWEEN 50.00 AND 100.00";
+            } else if (feeString.equals(">100£")) {
+                query += " AND fee > 100.00";
+            }
+        }
+
+        // Exécuter la requête finale
+        rs = statement.executeQuery(query);
+
+
+        
+        
+            while(rs.next()) {
+                
+                date = rs.getDate("activity_date").toLocalDate();
+                int year = date.getYear();
+                int month = date.getMonthValue();
+                int day = date.getDayOfMonth();
+                
+                // Create Activity object
+                Activity a = new Activity(
+                    rs.getInt("activity_id"),
+                    rs.getString("name"),
+                    rs.getString("description"),
+                    ActivityTheme.valueOf(rs.getString("theme").toUpperCase()),
+                    rs.getInt("user_id"),
+                    day, month, year, 
+                    rs.getDouble("fee"),
+                    rs.getString("address"),
+                    rs.getInt("max_participants"),
+                    rs.getInt("duration"),
+                    rs.getString("image_path")
+                );
+                System.out.println("ajout de: "+ a.getName());
+                activities.add(a);
+                
+            }
+        }
+        catch( SQLException e ){
+
+            e.printStackTrace();
+        }
+        finally{
+
+            if( statement != null ){
+                try {
+                  statement.close();
+                }
+                catch( SQLException e ){
+                  e.printStackTrace();
+                }
+            }
+
+            if( dbConnection != null ){
+                try{
+                  dbConnection.close();
+                }
+                catch( SQLException e ){
+                    e.printStackTrace();
+                }
+            }
+        }
+        
+        
+        return activities;
+    }
+    
     public void addActivity(Activity activity){
         Connection dbConnection = null;
         Statement statement=null;

@@ -50,7 +50,8 @@ public class CustomerBookingActivityPage extends javax.swing.JFrame {
             discountIdMap.put(i, discounts.get(i).getDiscountId());
             cbDiscount.addItem("-"+String.valueOf( discounts.get(i).getPercent())+"%");
         }
-        if(discounts.size() == 0){
+        if(discounts.isEmpty()){
+            
             cbDiscount.addItem("No discount available");
         }
     }
@@ -71,6 +72,7 @@ public class CustomerBookingActivityPage extends javax.swing.JFrame {
         
         fillComboBoxDiscount();
     }
+    
     private ImageIcon imageAdjust(String path, byte[] pic){
         ImageIcon myImage = null;
         if(path != null){
@@ -355,20 +357,23 @@ public class CustomerBookingActivityPage extends javax.swing.JFrame {
 
     private void btnBookActivityActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBookActivityActionPerformed
         // TODO add your handling code here:
+        double number_participants = Integer.parseInt(txtPlace.getText());
         
-        if(Integer.parseInt( txtPlace.getText()) > this.currentActivity.getMaxParticipant()){
+        if( number_participants > this.currentActivity.getMaxParticipant()){
             JOptionPane.showMessageDialog(this, "Not enough places", "Error", JOptionPane.ERROR_MESSAGE);
             return;
+            
         }
         
         if(discountIdMap.isEmpty()){
-            CustomerPayementPage p = new CustomerPayementPage(this.currentUser, this.currentActivity);
+            CustomerPayementPage p = new CustomerPayementPage(this.currentUser, this.currentActivity,number_participants);
             p.setVisible(true);
             this.dispose();
+            
         }else{
             DiscountMDE dMde = new DiscountMDEImpl();
             Discount d = dMde.getDiscount(discountIdMap.get(cbDiscount.getSelectedIndex()));
-            CustomerPayementPage p = new CustomerPayementPage(this.currentUser, this.currentActivity, d);
+            CustomerPayementPage p = new CustomerPayementPage(this.currentUser, this.currentActivity, d,number_participants);
             p.setVisible(true);
             this.dispose();
         }

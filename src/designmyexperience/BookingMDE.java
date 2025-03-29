@@ -10,5 +10,5 @@ package designmyexperience;
  */
 public interface BookingMDE {
     
-    public void addBooking(Booking b);
+    public void addBooking(Booking booking);
 }
