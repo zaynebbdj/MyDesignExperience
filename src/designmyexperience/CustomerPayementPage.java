@@ -294,6 +294,8 @@ public class CustomerPayementPage extends javax.swing.JFrame {
             bMde.addBooking(booking);
 
             JOptionPane.showMessageDialog(this, "Booking created successfully", "Succes !", JOptionPane.INFORMATION_MESSAGE);
+            
+            
                 
         } catch(Exception e) {
             JOptionPane.showMessageDialog(this, "Fill all the field", "Error", JOptionPane.ERROR_MESSAGE);
