@@ -25,6 +25,7 @@ public class OwnerHomePage extends javax.swing.JFrame {
     }
     public OwnerHomePage(User u){
         this.currentUser = u;
+        System.out.println(u.getUserId() + " : " + u.getName());
         initComponents();
     }
 

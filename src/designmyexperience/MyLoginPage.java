@@ -47,14 +47,14 @@ public class MyLoginPage extends javax.swing.JFrame {
 
         jLabel1.setText("username :");
 
-        txtUsername.setText("Luna");
+        txtUsername.setText("adventure_club");
         txtUsername.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 txtUsernameActionPerformed(evt);
             }
         });
 
-        txtPassword.setText("Iloveearth");
+        txtPassword.setText("hashedpassword3");
         txtPassword.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 txtPasswordActionPerformed(evt);
@@ -181,7 +181,7 @@ public class MyLoginPage extends javax.swing.JFrame {
             
             UserMDE uD = new UserMDEImpl();
             User u = uD.getUser(username, password);
-            System.out.println(u);
+            System.out.println(u.getUserId() + " : " + u.getName());
 
             if (u.getUserTypeStr().equals("customer")) {
                 JOptionPane.showMessageDialog(this, "Connexion completed !", "Logged", JOptionPane.INFORMATION_MESSAGE);

@@ -399,7 +399,7 @@ public class ActivityMDEImpl implements ActivityMDE {
             statement = dbConnection.createStatement();
             
             ResultSet rs=statement.executeQuery("SELECT * FROM activity WHERE user_id = "+ ownerId);           ///////////////////
-            
+
             
             while(rs.next()) {
                 
@@ -537,6 +537,7 @@ public class ActivityMDEImpl implements ActivityMDE {
         Statement statement=null;
         LocalDate date = null;
         ResultSet rs =null;
+        System.out.println("get activity owner them :" + ownerId + " " + theme);
         try{
             // Create Connecction to my database
             DataSource dataSource = new DataSource();
@@ -544,7 +545,7 @@ public class ActivityMDEImpl implements ActivityMDE {
             statement = dbConnection.createStatement();
             
             if(theme.equals("ALL")){
-                rs=statement.executeQuery("SELECT * FROM activity");
+                rs=statement.executeQuery("SELECT * FROM activity WHERE user_id = '" + ownerId+"'");
             }else{
                 rs=statement.executeQuery("SELECT * FROM activity WHERE user_id = '" + ownerId+"'AND theme = '"+ theme +"'");     
             }
@@ -571,7 +572,6 @@ public class ActivityMDEImpl implements ActivityMDE {
                     rs.getInt("duration"),
                     rs.getString("image_path")
                 );
-                System.out.println("ajout de: "+ a.getName());
                 activities.add(a);
                 
             }

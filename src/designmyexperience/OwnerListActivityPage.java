@@ -34,6 +34,7 @@ public class OwnerListActivityPage extends javax.swing.JFrame {
     
     public OwnerListActivityPage(User u){
         this.currentUser = u;
+        System.out.println(u.getUserId() + " : " + u.getName());
         initComponents();
         init();
     }
@@ -65,6 +66,8 @@ public class OwnerListActivityPage extends javax.swing.JFrame {
             
             ActivityMDE aMde = new ActivityMDEImpl();
             activities = aMde.getAllActivityTheme(currentUser.getUserId(),theme);
+            System.out.println(currentUser.getUserId() + " : " + currentUser.getName());
+
             DefaultTableModel model = (DefaultTableModel) tableActivity.getModel();
             Object[] row;
             activityIdMap.clear();
