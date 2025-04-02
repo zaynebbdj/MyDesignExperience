@@ -7,6 +7,8 @@ package designmyexperience;
 import java.awt.Image;
 import java.io.File;
 import java.sql.*;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import javax.swing.ImageIcon;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
@@ -111,7 +113,7 @@ public class RegisterUserPage extends javax.swing.JFrame {
             }
         });
 
-        cbUserType.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "customer", "business_owner" }));
+        cbUserType.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "...", "customer", "business_owner" }));
 
         lblUserType.setForeground(new java.awt.Color(0, 0, 0));
         lblUserType.setText("User Type :");
@@ -209,7 +211,7 @@ public class RegisterUserPage extends javax.swing.JFrame {
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
                         .addGap(34, 34, 34)
                         .addComponent(jLabel8, javax.swing.GroupLayout.PREFERRED_SIZE, 71, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 277, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 320, Short.MAX_VALUE)
                 .addComponent(lblImage, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
@@ -285,12 +287,57 @@ public class RegisterUserPage extends javax.swing.JFrame {
         this.dispose();
     }//GEN-LAST:event_jButton1ActionPerformed
 
+    public boolean emptyField(String username, String password, String name,String firstname,String userType, String email, String phoneNumber){
+       
+        if (username.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Choose a username", "Error", JOptionPane.ERROR_MESSAGE);
+            return true;
+        }
+        if (password.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Choose a password", "Error", JOptionPane.ERROR_MESSAGE);
+            return true;
+        }
+        if (name.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Choose a name", "Error", JOptionPane.ERROR_MESSAGE);
+            return true;
+        }
+        if (firstname.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Enter your firstname", "Error", JOptionPane.ERROR_MESSAGE);
+            return true;
+        }
+        if(userType.equals("...")){
+            JOptionPane.showMessageDialog(this, "Select a user type", "Input Error", JOptionPane.ERROR_MESSAGE);
+            return true;
+        }
+        if(!isValidEmail(email)){
+            JOptionPane.showMessageDialog(this, "Add a valid address", "Input Error", JOptionPane.ERROR_MESSAGE);
+            return true;
+        }
+        if(this.imagePath == null){
+            JOptionPane.showMessageDialog(this, "Choose an image", "Input Error", JOptionPane.ERROR_MESSAGE);
+            return true;
+        }
+        
+        return false;    
+    }
+    public static boolean isValidEmail(String email) {
+        if (email == null || email.trim().isEmpty()) {
+            return false; // fied is empty
+        }
+        // Regular expression
+        String emailRegex = "^[A-Za-z0-9+_.-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,6}$";
+        // Compile the regex pattern
+        Pattern pattern = Pattern.compile(emailRegex);
+        Matcher matcher = pattern.matcher(email);
+
+        return matcher.matches();
+    }
     private void btnCreateUserActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCreateUserActionPerformed
         // TODO add your handling code here:
         // TODO code application logic here
         String username = txtUsername.getText();
         String password = txtPassword.getText(); 
-        UserType userType = UserType.valueOf(cbUserType.getSelectedItem().toString().toUpperCase());
+        String userType = cbUserType.getSelectedItem().toString().toUpperCase();
         String name = txtName.getText();
         String firstname = txtFirstname.getText();
         String email = txtEmail.getText();
@@ -298,8 +345,7 @@ public class RegisterUserPage extends javax.swing.JFrame {
         
 
         // check if the field are all filled
-        if (username.isEmpty() || password.isEmpty() || name.isEmpty() || firstname.isEmpty() || phoneNumber.isEmpty()) {
-            JOptionPane.showMessageDialog(this, "Fill all the field", "Error", JOptionPane.ERROR_MESSAGE);
+        if(emptyField(username, password, name, firstname, userType, email, phoneNumber)){
             return;
         }
         
@@ -308,7 +354,7 @@ public class RegisterUserPage extends javax.swing.JFrame {
             User user1 = new User();
 
             user1.setUsername(username);
-            user1.setUserType(userType);
+            user1.setUserType(UserType.valueOf(userType));
             user1.setPassword(password);
             user1.setName(name);
             user1.setEmail(email);
